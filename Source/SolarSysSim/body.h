@@ -7,13 +7,13 @@
 
 
 UCLASS()
-class SOLARSYSSIM_API Abody : public AActor
+class SOLARSYSSIM_API ABody : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	Abody(FVector vel, FVector pos, float mass, float radius);
+	ABody(FVector vel, FVector pos, float mass, float radius);
 
 
 	// Called when the game starts or when spawned
@@ -24,13 +24,15 @@ public:
 
 	//Metoder
 
-	void CalcForces(Abody* planB);
+	void CalcForces();
 	void CalcAcc();
 	void CalcVel();
 	void CalcPos();
+	UFUNCTION(BlueprintCallable, Category = Body)
+		static UObjectHandler* GetSingletonPtr();
 	
 private:
-	Abody();
+	ABody();
 
 	//Variabler
 	FVector Forces, acc, vel, pos;

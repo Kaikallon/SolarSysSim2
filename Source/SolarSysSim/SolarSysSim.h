@@ -3,4 +3,6 @@
 #pragma once
 
 #include "Engine.h"
+#include "body.h"
+#include "ObjectHandler.h"
 

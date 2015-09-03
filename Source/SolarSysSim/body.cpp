@@ -1,11 +1,11 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "SolarSysSim.h"
-#include "body.h"
 
 
-// Sets default values
-Abody::Abody()
+
+//Private default constructor
+ABody::ABody()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
@@ -17,7 +17,7 @@ Abody::Abody()
 
 
 }
-Abody::Abody(FVector vel, FVector pos, float mass, float radius)
+ABody::ABody(FVector vel, FVector pos, float mass, float radius)
 {
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
@@ -31,46 +31,62 @@ Abody::Abody(FVector vel, FVector pos, float mass, float radius)
 }
 
 // Called when the game starts or when spawned
-void Abody::BeginPlay()
+void ABody::BeginPlay()
 {
 	Super::BeginPlay();
 	
 }
 
 // Called every frame
-void Abody::Tick( float DeltaTime )
+void ABody::Tick( float DeltaTime )
 {
 	Super::Tick( DeltaTime );
 
 }
 
-void Abody::CalcForces(Abody* planB)
+void ABody::CalcForces() //Ändra till iterering
 {
-	//Reset all forces
-	this->Forces.X = 0;
-	this->Forces.Y = 0;
-	this->Forces.Z = 0;
+	//Reset all forces before calculating new ones
+	this->Forces = { 0, 0, 0 };
+	
 
-	float dist = this->GetDistanceTo(planB);
-	float AbsForce = (gConst * mass * planB->mass)/ pow(dist, 2);
-	//CalcForces
-	this->Forces.X += (GetActorLocation().X - planB->GetActorLocation().X) / dist;
-	this->Forces.Y += (GetActorLocation().Y - planB->GetActorLocation().Y) / dist;
-	this->Forces.Z += (GetActorLocation().Z - planB->GetActorLocation().Z) / dist;
+
+	for (auto planet_itr(GetSingletonPtr()->allBodies.CreateConstIterator()); planet_itr; planet_itr++)
+	{
+		//Check for it self, and skip
+		if ((*planet_itr) == this) continue;
+
+		float dist = this->GetDistanceTo((*planet_itr));
+		float magnitude = (gConst * mass * (*planet_itr)->mass) / pow(dist, 2);
+		//CalcForces
+		this->Forces.X += ((GetActorLocation().X - (*planet_itr)->GetActorLocation().X) * magnitude) / dist;
+		this->Forces.Y += ((GetActorLocation().Y - (*planet_itr)->GetActorLocation().Y) * magnitude) / dist;
+		this->Forces.Z += ((GetActorLocation().Z - (*planet_itr)->GetActorLocation().Z) * magnitude) / dist;
+	}
 
 }
 
-void Abody::CalcAcc()
+void ABody::CalcAcc()
 {
 	acc.X = Forces.X / mass; 
 	acc.Y = Forces.Y / mass;
 	acc.Z = Forces.Z / mass;
+
 }
-void Abody::CalcVel()
+void ABody::CalcVel()
 {
 	vel += acc; // * dT;
 }
-void Abody::CalcPos()
+void ABody::CalcPos()
 {
-	pos += acc; // *dT;
+	this->SetActorLocation(this->GetActorLocation() + acc);
+	//pos += acc; // *dT;
+}
+
+
+
+
+UObjectHandler* ABody::GetSingletonPtr()
+{
+	return Cast<UObjectHandler>(GEngine->GameSingleton);
 }
