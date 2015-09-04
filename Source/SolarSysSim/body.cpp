@@ -3,7 +3,6 @@
 #include "SolarSysSim.h"
 
 
-
 //Private default constructor
 ABody::ABody()
 {
@@ -28,12 +27,14 @@ ABody::ABody(FVector vel, FVector pos, float mass, float radius)
 	this->vel = vel;
 	this->pos = pos;
 
+
 }
 
 // Called when the game starts or when spawned
 void ABody::BeginPlay()
 {
 	Super::BeginPlay();
+	pos = GetActorLocation();
 	
 }
 
@@ -44,20 +45,20 @@ void ABody::Tick( float DeltaTime )
 
 }
 
-void ABody::CalcForces() //Ändra till iterering
+void ABody::CalcForces(TArray<ABody*>& allBodies)
 {
 	//Reset all forces before calculating new ones
 	this->Forces = { 0, 0, 0 };
 	
 
 
-	for (auto planet_itr(GetSingletonPtr()->allBodies.CreateConstIterator()); planet_itr; planet_itr++)
+	for (auto planet_itr((allBodies.CreateConstIterator())); planet_itr; planet_itr++)
 	{
 		//Check for it self, and skip
 		if ((*planet_itr) == this) continue;
 
 		float dist = this->GetDistanceTo((*planet_itr));
-		float magnitude = (gConst * mass * (*planet_itr)->mass) / pow(dist, 2);
+		float magnitude = -(gConst * mass * (*planet_itr)->mass) / pow(dist, 2);
 		//CalcForces
 		this->Forces.X += ((GetActorLocation().X - (*planet_itr)->GetActorLocation().X) * magnitude) / dist;
 		this->Forces.Y += ((GetActorLocation().Y - (*planet_itr)->GetActorLocation().Y) * magnitude) / dist;
@@ -79,14 +80,12 @@ void ABody::CalcVel()
 }
 void ABody::CalcPos()
 {
-	this->SetActorLocation(this->GetActorLocation() + acc);
+	pos += vel; // * dT;
+	this->SetActorLocation(pos);
+
+
+	//this->SetActorLocation(this->GetActorLocation() + vel);
 	//pos += acc; // *dT;
 }
 
 
-
-
-UObjectHandler* ABody::GetSingletonPtr()
-{
-	return Cast<UObjectHandler>(GEngine->GameSingleton);
-}

@@ -5,15 +5,25 @@
 #include "GameFramework/GameMode.h"
 #include "SolarSysSimGameMode.generated.h"
 
-/**
- * 
- */
+
 UCLASS()
 class SOLARSYSSIM_API ASolarSysSimGameMode : public AGameMode
 {
 	GENERATED_BODY()
 	
+public:
+	//Default constructor
+	ASolarSysSimGameMode();
+
+	//Functions
+	virtual void Tick(float DeltaSeconds) override;
+	UWorld* WorldGet();
+	void UpdateAllBodies();
+	void GetAllBodies(UWorld* World);
+	void RemoveBodyFromList(ABody*);
 	
-	
-	
+
+	//Variables
+	//Pointers to all bodies of interest
+	TArray<ABody*> allBodies;
 };

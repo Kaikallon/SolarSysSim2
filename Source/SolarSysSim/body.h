@@ -24,19 +24,28 @@ public:
 
 	//Metoder
 
-	void CalcForces();
+	void CalcForces(TArray<ABody*>& allBodies);
 	void CalcAcc();
 	void CalcVel();
 	void CalcPos();
-	UFUNCTION(BlueprintCallable, Category = Body)
-		static UObjectHandler* GetSingletonPtr();
+	//UFUNCTION(BlueprintCallable, Category = Body)
+	//	static UObjectHandler* GetSingletonPtr();
+
+
+
 	
 private:
 	ABody();
 
 	//Variabler
-	FVector Forces, acc, vel, pos;
-	float mass, dT, radius;
+	FVector Forces, acc, pos;
+	UPROPERTY(EditAnywhere)
+		FVector vel;
+	UPROPERTY(EditAnywhere)
+		float mass;
+	float dT, radius;
 	float gConst;  //Make static
+
+
 
 };

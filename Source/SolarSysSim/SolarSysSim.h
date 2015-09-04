@@ -5,4 +5,5 @@
 #include "Engine.h"
 #include "body.h"
 #include "ObjectHandler.h"
+#include "SolarSysSimGameMode.h"
 
