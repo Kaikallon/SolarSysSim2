@@ -11,12 +11,13 @@ ABody::ABody()
 	this->gConst = 1;
 	this->mass = 1;
 	this->dT = 1;
-	this->vel = { 0, 0, 0 };
-	this->pos = { 0, 0, 0 };
+	this->vel = UVectorDouble{ 0, 0, 0 };
+	this->pos = UVectorDouble{ 0, 0, 0 };
+
 
 
 }
-ABody::ABody(FVector vel, FVector pos, float mass, float radius)
+ABody::ABody(UVectorDouble vel, UVectorDouble pos, float mass, float radius)
 {
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
@@ -34,7 +35,10 @@ ABody::ABody(FVector vel, FVector pos, float mass, float radius)
 void ABody::BeginPlay()
 {
 	Super::BeginPlay();
-	pos = GetActorLocation();
+	pos =  GetActorLocation();
+	vel = setVel;
+	mass = setMass;
+
 	
 }
 
@@ -48,7 +52,7 @@ void ABody::Tick( float DeltaTime )
 void ABody::CalcForces(TArray<ABody*>& allBodies)
 {
 	//Reset all forces before calculating new ones
-	this->Forces = { 0, 0, 0 };
+	this->Forces = UVectorDouble{ 0, 0, 0 };
 	
 
 
@@ -81,11 +85,8 @@ void ABody::CalcVel()
 void ABody::CalcPos()
 {
 	pos += vel; // * dT;
-	this->SetActorLocation(pos);
+	this->SetActorLocation({ (float)pos.X, (float)pos.Y, (float)pos.Z });
 
-
-	//this->SetActorLocation(this->GetActorLocation() + vel);
-	//pos += acc; // *dT;
 }
 
 

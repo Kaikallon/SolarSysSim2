@@ -4,6 +4,7 @@
 
 #include "Engine.h"
 #include "body.h"
-#include "ObjectHandler.h"
+
+#include "vector3D.h"
 #include "SolarSysSimGameMode.h"
 

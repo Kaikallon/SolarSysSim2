@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
-
+#include "vector3D.h"
 #include "GameFramework/Actor.h"
 #include "body.generated.h"
 
@@ -13,7 +13,7 @@ class SOLARSYSSIM_API ABody : public AActor
 	
 public:	
 	// Sets default values for this actor's properties
-	ABody(FVector vel, FVector pos, float mass, float radius);
+	ABody(UVectorDouble vel, UVectorDouble pos, float mass, float radius);
 
 
 	// Called when the game starts or when spawned
@@ -28,21 +28,18 @@ public:
 	void CalcAcc();
 	void CalcVel();
 	void CalcPos();
-	//UFUNCTION(BlueprintCallable, Category = Body)
-	//	static UObjectHandler* GetSingletonPtr();
-
-
 
 	
 private:
 	ABody();
 
 	//Variabler
-	FVector Forces, acc, pos;
+	UVectorDouble Forces, acc, pos, vel;
 	UPROPERTY(EditAnywhere)
-		FVector vel;
+		FVector setVel;
 	UPROPERTY(EditAnywhere)
-		float mass;
+		float setMass;
+	double mass;
 	float dT, radius;
 	float gConst;  //Make static
 
