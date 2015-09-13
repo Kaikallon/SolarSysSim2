@@ -6,6 +6,8 @@
 ASolarSysSimGameMode::ASolarSysSimGameMode()
 {
 	PrimaryActorTick.bCanEverTick = true;
+	//AActor::SetActorTickEnabled(true); ??
+	dT = 1;
 }
 
 void ASolarSysSimGameMode::Tick(float DeltaSeconds)
@@ -13,6 +15,10 @@ void ASolarSysSimGameMode::Tick(float DeltaSeconds)
 	Super::Tick(DeltaSeconds);
 	GetAllBodies(GetWorld());
 	UpdateAllBodies();
+}
+void ASolarSysSimGameMode::BeginPlay()
+{
+
 }
 
 UWorld* ASolarSysSimGameMode::WorldGet()
@@ -27,7 +33,6 @@ void ASolarSysSimGameMode::UpdateAllBodies()
 	{
 		//(*body)->PerformThreadedTask(CalcVel);
 		(*body)->CalcForces(allBodies);
-		(*body)->CalcAcc();
 		(*body)->CalcVel();
 		(*body)->CalcPos();
 		

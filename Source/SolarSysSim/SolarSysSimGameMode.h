@@ -17,6 +17,7 @@ public:
 
 	//Functions
 	virtual void Tick(float DeltaSeconds) override;
+	virtual void BeginPlay() override;
 	UWorld* WorldGet();
 	void UpdateAllBodies();
 	void GetAllBodies(UWorld* World);
@@ -24,6 +25,9 @@ public:
 	
 
 	//Variables
+	//Delta-time between frames
+	UPROPERTY(EditAnywhere)
+		float dT;
 	//Pointers to all bodies of interest
 	TArray<ABody*> allBodies;
 };

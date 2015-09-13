@@ -37,6 +37,13 @@ public:
 		X += V.X; Y += V.Y; Z += V.Z;
 		return *this;
 	}
+	UVectorDouble operator*(const float& V)
+	{
+		X *= V; 
+		Y *= V; 
+		Z *= V;
+		return *this;
+	}
 
 
 
