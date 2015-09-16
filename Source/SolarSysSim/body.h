@@ -27,26 +27,25 @@ public:
 	// Called every frame
 	virtual void Tick( float DeltaSeconds ) override;
 
+	//--------------
 
-	//Metoder
+	//Forces and such
 	void CalcForces(TArray<ABody*>& allBodies);
 	void CalcVel();
 	void CalcPos();
-//	UFUNCTION(BlueprintCallable, Category = Body)
-//		void SetDoubles(float mass, FVector vel, FVector pos);
 
+	//Collision related
+	bool Overlap(ABody* other);
 	
 private:
 	ABody();
 
 	//Variabler
-	UVectorDouble Forces, acc, pos, vel;
+	UVectorDouble Forces, pos, vel;
 
 	double mass;
 	float* dT;
 	float radius;
-
-	float gConst;  //Make static later
 
 
 };

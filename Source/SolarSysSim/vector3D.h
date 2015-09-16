@@ -46,12 +46,17 @@ public:
 	}
 
 
-
-	//Operators
-	//friend UVectorDouble operator+(const UVectorDouble &a, const UVectorDouble &b);
-
-
-	//void Reset();
+	//Functions
+	double GetDistanceTo(UVectorDouble& other)
+	{
+		return 
+			sqrt
+			(
+				pow((X - other.X), 2) + 
+				pow((Y - other.Y), 2) + 
+				pow((Z - other.Z), 2)
+			);
+	}
 
 	
 };

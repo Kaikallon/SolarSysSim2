@@ -9,13 +9,10 @@ ABody::ABody()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	this->gConst = 1;
 	this->setMass = 1;
 	this->mass = 1;
 	this->vel = UVectorDouble{ 0, 0, 0 };
 	this->pos = UVectorDouble{ 0, 0, 0 };
-
-	//dT = &((ASolarSysSimGameMode*)GetWorld()->GetAuthGameMode())->dT;
 
 }
 ABody::ABody(UVectorDouble vel, UVectorDouble pos, float mass, float radius)
@@ -23,13 +20,10 @@ ABody::ABody(UVectorDouble vel, UVectorDouble pos, float mass, float radius)
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	this->gConst = 1;
 	this->setMass = mass;
 	this->mass = mass;
 	this->vel = vel;
 	this->pos = pos;
-
-	//dT = &((ASolarSysSimGameMode*)GetWorld()->GetAuthGameMode())->dT;
 
 }
 
@@ -66,7 +60,7 @@ void ABody::CalcForces(TArray<ABody*>& allBodies)
 		if ((*planet_itr) == this) continue;
 
 		float dist = this->GetDistanceTo((*planet_itr));
-		float magnitude = -(gConst *  (*planet_itr)->mass) / pow(dist, 2); //Skip multiplication with it's own mass, and you get accelleration directly
+		float magnitude = -(/*gConst * mass * */ (*planet_itr)->mass) / pow(dist, 2); //Skip it's own mass and gConst, and you get accelleration directly
 		//CalcForces
 		this->Forces.X += ((GetActorLocation().X - (*planet_itr)->GetActorLocation().X) * magnitude) / dist;
 		this->Forces.Y += ((GetActorLocation().Y - (*planet_itr)->GetActorLocation().Y) * magnitude) / dist;
@@ -85,11 +79,8 @@ void ABody::CalcPos()
 	this->SetActorLocation({ (float)pos.X, (float)pos.Y, (float)pos.Z });
 
 }
-//
-//void ABody::SetDoubles(float mass, FVector vel, FVector pos)
-//{
-//	this->mass = mass;
-//	this->vel = vel;
-//	this->pos = pos;
-//}
-//
+
+bool ABody::Overlap(ABody* other)
+
+	return pos.GetDistanceTo(other->pos) < (this->radius - other->radius);
+}

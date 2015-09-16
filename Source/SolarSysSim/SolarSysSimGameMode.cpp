@@ -40,7 +40,10 @@ void ASolarSysSimGameMode::UpdateAllBodies()
 	//Sync main thread. Wait for workers to complete and update position
 	for (auto body(allBodies.CreateIterator()); body; body++)
 	{
-		//(*body)->UpdateBody();
+		if (!(*body)->IsPendingKill())
+		{
+
+		}
 	}
 }
 
