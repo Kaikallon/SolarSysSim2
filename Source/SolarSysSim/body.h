@@ -19,8 +19,8 @@ public:
 	
 public:	
 	// Sets default values for this actor's properties
-	ABody(UVectorDouble vel, UVectorDouble pos, float mass, float radius);
-
+	ABody(UVectorDouble vel, float mass, float radius);
+	void Initialize(UVectorDouble vel, float mass, float radius);
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	
@@ -33,12 +33,15 @@ public:
 	void CalcForces(TArray<ABody*>& allBodies);
 	void CalcVel();
 	void CalcPos();
-
-	//Collision related
-	bool Overlap(ABody* other);
 	
-private:
-	ABody();
+	//Collision related
+	bool			Overlap						(ABody* other);
+	void			MergeBodies					(ABody* other);
+	double			CalcNewRadius				(ABody* other);
+	UVectorDouble	CalcNewVel					(ABody *other);
+	UVectorDouble	CalcDistanceToCentreOfMass	(ABody* other);
+	
+
 
 	//Variabler
 	UVectorDouble Forces, pos, vel;
@@ -47,5 +50,7 @@ private:
 	float* dT;
 	float radius;
 
+private:
+	ABody();
 
 };

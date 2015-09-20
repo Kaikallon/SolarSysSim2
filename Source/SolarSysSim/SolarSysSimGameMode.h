@@ -19,9 +19,10 @@ public:
 	virtual void Tick(float DeltaSeconds) override;
 	virtual void BeginPlay() override;
 	UWorld* WorldGet();
-	void UpdateAllBodies();
-	void GetAllBodies(UWorld* World);
-	void RemoveBodyFromList(ABody*);
+	void	UpdateAllBodies();
+	void	GetAllBodies(UWorld* World);
+	void	RemoveBodyFromList(ABody*);
+	
 	
 
 	//Variables

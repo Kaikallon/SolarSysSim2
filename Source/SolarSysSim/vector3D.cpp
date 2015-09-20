@@ -17,3 +17,12 @@ UVectorDouble::UVectorDouble(double x, double y, double z)
 	this->Z = z;
 }
 
+UVectorDouble operator+(const UVectorDouble& c1, const UVectorDouble& c2)
+{
+	return UVectorDouble(c1.X + c2.X, c1.Y + c2.Y, c1.Z + c2.Z);
+}
+
+UVectorDouble operator-(const UVectorDouble& c1, const UVectorDouble& c2)
+{
+	return UVectorDouble(c1.X - c2.X, c1.Y - c2.Y, c1.Z - c2.Z);
+}

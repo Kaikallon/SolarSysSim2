@@ -18,7 +18,7 @@ void ASolarSysSimGameMode::Tick(float DeltaSeconds)
 }
 void ASolarSysSimGameMode::BeginPlay()
 {
-
+	
 }
 
 UWorld* ASolarSysSimGameMode::WorldGet()
@@ -37,12 +37,24 @@ void ASolarSysSimGameMode::UpdateAllBodies()
 		(*body)->CalcPos();
 		
 	}
-	//Sync main thread. Wait for workers to complete and update position
-	for (auto body(allBodies.CreateIterator()); body; body++)
+	//Check for collisions
+	for (auto first(allBodies.CreateIterator()); first; first++)
 	{
-		if (!(*body)->IsPendingKill())
+		if (!(*first)->IsPendingKill())
 		{
-
+			for (auto second(first + 1); second; second++)
+			{
+				if (!(*second)->IsPendingKill()) //Maybe also make sure that second != first?? Shouldn't need to
+				{
+					//Here we have two bodies, none of which are pending kill
+					//Now we can do stuff
+					if ((*first)->Overlap(*second)) //Check if they overlap
+					{
+						//Create new body here
+						//MergeBodies
+					}
+				}
+			}
 		}
 	}
 }
@@ -65,3 +77,5 @@ void ASolarSysSimGameMode::GetAllBodies(UWorld* World)
 	}
 
 }
+
+

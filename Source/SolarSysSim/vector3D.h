@@ -34,7 +34,9 @@ public:
 
 	UVectorDouble operator+=(const UVectorDouble& V)
 	{
-		X += V.X; Y += V.Y; Z += V.Z;
+		X += V.X; 
+		Y += V.Y; 
+		Z += V.Z;
 		return *this;
 	}
 	UVectorDouble operator*(const float& V)
@@ -44,7 +46,15 @@ public:
 		Z *= V;
 		return *this;
 	}
-
+	UVectorDouble operator/(const float& V)
+	{
+		X /= V;
+		Y /= V;
+		Z /= V;
+		return *this;
+	}
+	friend UVectorDouble operator+(const UVectorDouble& c1, const UVectorDouble& c2);
+	friend UVectorDouble operator-(const UVectorDouble& c1, const UVectorDouble& c2);
 
 	//Functions
 	double GetDistanceTo(UVectorDouble& other)
@@ -60,28 +70,4 @@ public:
 
 	
 };
-//UVectorDouble operator+(const Uvector3D &a, const Uvector3D &b)
-//{
-//	return Uvector3D(a.x + b.x, a.y + b.y, a.z + b.z);
-//}
-//#ifdef IMPLEMENT_ASSIGNMENT_OPERATOR_MANUALLY
-//
-//FORCEINLINE Uvector3D& Uvector3D::operator=(const Uvector3D& source)
-//{
-//	//UObject::operator=(source);
-//	x = source.x;
-//	y = source.y;
-//	z = source.z;
-//	return *this;
-//}
-//#endif
-
-//FORCEINLINE Uvector3D::Uvector3D(const Uvector3D &source)
-//	: UObject(source)
-//{
-//
-//	this->x = source.x;
-//	this->y = source.y;
-//	this->z = source.z;
-//}
 
