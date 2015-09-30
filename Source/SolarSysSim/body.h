@@ -40,7 +40,11 @@ public:
 	double			CalcNewRadius				(ABody* other);
 	UVectorDouble	CalcNewVel					(ABody *other);
 	UVectorDouble	CalcDistanceToCentreOfMass	(ABody* other);
-	
+
+
+
+private:
+	ABody();
 
 
 	//Variabler
@@ -49,8 +53,4 @@ public:
 	double mass;
 	float* dT;
 	float radius;
-
-private:
-	ABody();
-
 };

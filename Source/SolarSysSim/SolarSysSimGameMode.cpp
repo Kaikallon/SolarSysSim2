@@ -51,7 +51,7 @@ void ASolarSysSimGameMode::UpdateAllBodies()
 					if ((*first)->Overlap(*second)) //Check if they overlap
 					{
 						//Create new body here
-						//MergeBodies
+						(*first)->MergeBodies(*second);
 					}
 				}
 			}

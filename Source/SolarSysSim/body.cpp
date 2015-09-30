@@ -27,6 +27,7 @@ void ABody::Initialize(UVectorDouble vel, float mass, float radius)
 	this->setMass = mass;
 	this->mass = mass;
 	this->vel = vel;
+	this->radius = GetActorScale3D().X;
 	
 }
 // Called when the game starts or when spawned
@@ -36,6 +37,8 @@ void ABody::BeginPlay()
 	pos =  GetActorLocation();
 	vel = setVel;
 	mass = setMass;
+	this->radius = GetActorScale3D().X;
+
 
 	if (GetWorld() == NULL) { UE_LOG(Critical, Fatal, TEXT("No world! Pointer invalid!")) }
 	dT = &((ASolarSysSimGameMode*)GetWorld()->GetAuthGameMode())->dT;
@@ -53,7 +56,6 @@ void ABody::CalcForces(TArray<ABody*>& allBodies)
 	//Reset all forces before calculating new ones
 	this->Forces = UVectorDouble{ 0, 0, 0 };
 	
-
 
 	for (auto planet_itr((allBodies.CreateConstIterator())); planet_itr; planet_itr++)
 	{
@@ -84,17 +86,19 @@ void ABody::CalcPos()
 
 bool ABody::Overlap(ABody* other)
 {
-	return pos.GetDistanceTo(other->pos) < (this->radius - other->radius);
+	return pos.GetDistanceTo(other->pos) < (this->radius + other->radius);
 }
 
 void ABody::MergeBodies(ABody* other)
 {
 
-	this->mass += other->mass;
-	pos += CalcDistanceToCentreOfMass(other);
-	vel += CalcNewVel(other);
+	pos = CalcDistanceToCentreOfMass(other);
+	vel = CalcNewVel(other);
 	radius = CalcNewRadius(other);
-	
+	SetActorScale3D({ radius, radius, radius });
+	(this->mass) += (other->mass);
+
+
 	other->Destroy();
 }
 

@@ -1,6 +1,9 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
+#include "AllowWindowsPlatformTypes.h" 
+#include <thread>
+#include "HideWindowsPlatformTypes.h"
 
 #include "GameFramework/GameMode.h"
 #include "SolarSysSimGameMode.generated.h"
